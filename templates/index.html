@@ -5,22 +5,17 @@ Hand Sign Digit Recognition
 
 {% block content %}
 <div class="container py-5">
-
     <header class="text-white text-center">
         <div class= "content">
             <h1>Detect.me</h1>
             <h1>Detect.me</h1>
         </div>
     </header>
-
-
     <div class="row py-4">
         <div class="col-lg-6 mx-auto text-center">
-            <a class="btn btn-primary my-3" href="/recent">View your recent detection</a>
-
+            <div class="button"><a href="/recent">View your recent detection</a></div>
             <!-- Upload image input-->
             <form action="/" enctype="multipart/form-data" method="POST">
-
                 <div class="drag-area" id="dragArea">
                     <div class="icon"><i class="fas fa-cloud-upload-alt"></i></div>
                     <header>Drag & Drop to Upload File</header>
@@ -35,31 +30,22 @@ Hand Sign Digit Recognition
                         </div>
                     </div>
                   </div>
-
-                 
-                   
-                    
                 <!-- Uploaded image area-->
-
                 <br>
                 <p class="font-italic text-white text-center">The image uploaded will be rendered inside the box
                     below.</p>
                 <div class="image-area mt-4"><img alt="" class="img-fluid rounded shadow-sm mx-auto d-block"
                                                   id="imageResult" name="imageResult"
                                                   src="#"></div>
-
                 <!-- Submit button-->
                 <div class="button"><a href="">Detect Objects</a></div>
-                <div class="container">
-                    <div class="row">
-                        <div class="col text-center">
-                            <input class="btn btn-primary my-3" value="Detect objects" type="submit"/>
+            
+                        <div class="button">
+                            
+                            <input class="btn" value="Detect objects" type="submit"/>
                         </div>
-                    </div>
-                </div>
-                
+                    
             </form>
-
         </div>
     </div>
 </div>
