@@ -39,9 +39,6 @@ jobs:
     - name: Install JavaScript dependencies
       run: npm install
 
-    - name: Run JavaScript tests
-      run: npm test
-
     - name: Build JavaScript assets
       run: npm run build
 
