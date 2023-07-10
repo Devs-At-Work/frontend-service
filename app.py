@@ -14,7 +14,7 @@ app = Flask(__name__, static_url_path='')
 
 # HOST_MACHINE = os.getenv('HOST_MACHINE', "localhost")
 
-YOLO_URL = f'http://yolo5:8081'
+YOLO_URL = f'http://yolo5-service:8081'
 
 
 # MONGO_URL = f'mongodb://mongodb:27017'
