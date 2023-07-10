@@ -41,7 +41,7 @@ jobs:
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
         tags: 1.1.1, ${{ github.sha }}
-    - name: Checkout polybot-configs
+    - name: Checkout frontend-configs
       uses: actions/checkout@v3
       with:
         repository: Devs-At-Work/frontend-configs
