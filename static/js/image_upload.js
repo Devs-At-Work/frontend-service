@@ -31,3 +31,39 @@ function showFileName( event ) {
   var fileName = input.files[0].name;
   infoArea.textContent = 'File name: ' + fileName;
 }
+
+
+document.addEventListener('DOMContentLoaded', () => {
+    const dragArea = document.getElementById('dragArea');
+    const uploadInput = document.getElementById('uploadInput');
+
+    dragArea.addEventListener('dragover', (event) => {
+        event.preventDefault();
+        dragArea.classList.add('active');
+    });
+
+    dragArea.addEventListener('dragleave', () => {
+        dragArea.classList.remove('active');
+    });
+
+    dragArea.addEventListener('drop', (event) => {
+        event.preventDefault();
+        dragArea.classList.remove('active');
+        const file = event.dataTransfer.files[0];
+        handleFile(file);
+    });
+
+    uploadInput.addEventListener('change', () => {
+        const file = uploadInput.files[0];
+        handleFile(file);
+    });
+
+    function handleFile(file) {
+        const reader = new FileReader();
+        reader.onload = () => {
+            const image = document.getElementById('imageResult');
+            image.src = reader.result;
+        };
+        reader.readAsDataURL(file);
+    }
+});
