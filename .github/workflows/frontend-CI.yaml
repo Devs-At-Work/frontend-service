@@ -7,7 +7,7 @@ on:
     branches: [ "main" ]
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   build:
@@ -44,20 +44,24 @@ jobs:
     - name: Checkout frontend-configs
       uses: actions/checkout@v3
       with:
-        repository: Devs-At-Work/frontend-configs
-        ref: main
-        path: ./frontend-configs
+         repository: Devs-At-Work/frontend-configs
+         token: ${{ secrets.TARGET_REPO_TOKEN }}
+        #  ref: main
+         path: ./frontend-configs
 
     - name: Update deployment YAML
       run: |
-        # Install yq
         sudo wget https://github.com/mikefarah/yq/releases/download/v4.12.1/yq_linux_amd64 -O /usr/local/bin/yq
         sudo chmod +x /usr/local/bin/yq
 
-        # Print current directory and list files
-        pwd
-        ls -al ./frontend-configs/dev
+        yq e -i '.spec.template.spec.containers[0].image = "aryanshrana/frontend:1.1.1-${{ github.run_number }}"' ./frontend-configs/dev/frontend-deployment.yaml
 
-        # Update the image tag in the deployment YAML file
-        sed -i "s|image: aryanshrana/frontend:1.1.1|image: aryanshrana/frontend:${{github.run_number}}|g" ./frontend-configs/dev/frontend-deployment.yaml
+    - name: Commit and Push changes to config files
+      run: |
+        cd ./frontend-configs
+        git add .
+        git config user.name "github-actions[bot]"
+        git config user.email "github-actions@github.com"
+        git commit -am "updated: build number for frontend image"
+        git push
 
