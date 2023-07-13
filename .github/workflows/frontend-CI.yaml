@@ -7,7 +7,7 @@ on:
     branches: [ "main" ]
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   build:
@@ -40,4 +40,29 @@ jobs:
         registry: docker.io
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
-        tags: 1.0.1, ${{ github.sha }}
+        tags: 1.1.1-${{github.run_number}}
+    - name: Checkout frontend-configs
+      uses: actions/checkout@v3
+      with:
+         repository: Devs-At-Work/frontend-configs
+         token: ${{ secrets.TARGET_REPO_TOKEN }}
+        #  ref: main
+         path: ./frontend-configs
+
+    - name: Update deployment YAML
+      run: |
+        sudo wget https://github.com/mikefarah/yq/releases/download/v4.12.1/yq_linux_amd64 -O /usr/local/bin/yq
+        sudo chmod +x /usr/local/bin/yq
+
+        yq e -i '.spec.template.spec.containers[0].image = "aryanshrana/frontend:1.1.1-${{ github.run_number }}"' ./frontend-configs/dev/frontend-deployment.yaml
+
+    - name: Commit and Push changes to config files
+      run: |
+        cd ./frontend-configs
+        git add .
+        git config user.name "github-actions[bot]"
+        git config user.email "github-actions@github.com"
+        git commit -am "updated: build number for frontend image"
+        git push
+
+# This pipeline push the docker image to docker hub and then update the deployment yaml file in the frontend-configs repo, to trigger Argo CD workflow.
